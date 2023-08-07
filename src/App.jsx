@@ -6,10 +6,22 @@ function App() {
   const [state, setState] = useState(Array(9).fill(null));
   const [winner, setWinner] = useState(null);
   const [isWinner, setIsWinner] = useState(false);
-
+  const [isDraw, setIsDraw] = useState(false);
   const AddValue = (index) => {
     console.log(index);
     const copyState = [...state];
+    let nullCounter = 0;
+
+    for (var i = 0; i < 9; i++) {
+      if (state[i] !== null) {
+        nullCounter++;
+        console.log("counter:", nullCounter);
+      }
+      if (nullCounter >= 8) {
+        console.log("draw");
+        setIsDraw(true);
+      }
+    }
     if (copyState[index] === null) {
       copyState[index] = isXturn ? "X" : "O";
       setState(copyState);
@@ -49,58 +61,63 @@ function App() {
     setIsWinner(false);
     setWinner(null);
     setState(Array(9).fill(null));
+    setIsDraw(false);
   };
   return (
     <div className="App">
       <header className="App-header">
         <h1>Tic Tac Toe</h1>
-        <h4 className="subheading">
-          Person {isXturn ? "1" : "2"}'s turn : {isXturn ? "X" : "O"}
-        </h4>
-        {isWinner ? (
+
+        {isWinner || isDraw ? (
           <div>
-            <h3>Winner is {winner}</h3>
+            {isDraw ? <h3>Match is Draw</h3> : <h3>Winner is {winner}</h3>}
             <button className="reset-btn" onClick={resetGame}>
               Reset
             </button>
           </div>
         ) : (
-          <div className="board">
-            <div className="rows">
-              <div className="box" onClick={() => AddValue(0)}>
-                <div>{state[0]}</div>
-              </div>
-              <div className="box" onClick={() => AddValue(1)}>
-                <div>{state[1]}</div>
-              </div>
-              <div className="box" onClick={() => AddValue(2)}>
-                <div>{state[2]}</div>
-              </div>
-            </div>
+          <>
+            <h4 className="subheading">
+              Person {isXturn ? "1" : "2"}'s turn : {isXturn ? "X" : "O"}
+            </h4>
 
-            <div className="rows">
-              <div className="box" onClick={() => AddValue(3)}>
-                <div>{state[3]}</div>
+            <div className="board">
+              <div className="rows">
+                <div className="box" onClick={() => AddValue(0)}>
+                  <div>{state[0]}</div>
+                </div>
+                <div className="box" onClick={() => AddValue(1)}>
+                  <div>{state[1]}</div>
+                </div>
+                <div className="box" onClick={() => AddValue(2)}>
+                  <div>{state[2]}</div>
+                </div>
               </div>
-              <div className="box" onClick={() => AddValue(4)}>
-                <div>{state[4]}</div>
+
+              <div className="rows">
+                <div className="box" onClick={() => AddValue(3)}>
+                  <div>{state[3]}</div>
+                </div>
+                <div className="box" onClick={() => AddValue(4)}>
+                  <div>{state[4]}</div>
+                </div>
+                <div className="box" onClick={() => AddValue(5)}>
+                  <div>{state[5]}</div>
+                </div>
               </div>
-              <div className="box" onClick={() => AddValue(5)}>
-                <div>{state[5]}</div>
+              <div className="rows">
+                <div className="box" onClick={() => AddValue(6)}>
+                  <div>{state[6]}</div>
+                </div>
+                <div className="box" onClick={() => AddValue(7)}>
+                  <div>{state[7]}</div>
+                </div>
+                <div className="box" onClick={() => AddValue(8)}>
+                  <div>{state[8]}</div>
+                </div>
               </div>
             </div>
-            <div className="rows">
-              <div className="box" onClick={() => AddValue(6)}>
-                <div>{state[6]}</div>
-              </div>
-              <div className="box" onClick={() => AddValue(7)}>
-                <div>{state[7]}</div>
-              </div>
-              <div className="box" onClick={() => AddValue(8)}>
-                <div>{state[8]}</div>
-              </div>
-            </div>
-          </div>
+          </>
         )}
       </header>
     </div>
